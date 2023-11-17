@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Explore Sample App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -25,16 +25,22 @@ class MyApp extends StatelessWidget {
           children: [
             Header(),
             Expanded(
-                child: Container(
-              width: double.infinity,
-              child: Column(children: [
-                SearchBox(),
-                Divider(),
-                TopLocation(),
-                Divider(),
-                NearLocation(),
-                Divider(),
-              ]),
+                child: SingleChildScrollView(
+              child: Container(
+                width: double.infinity,
+                child: Column(children: [
+                  SearchBox(),
+                  Divider(),
+                  TopLocation(),
+                  Divider(),
+                  NearLocation(),
+                  Divider(),
+                  Suggestions(),
+                  Divider(),
+                  TopRated(),
+                  Divider()
+                ]),
+              ),
             )),
             BottomMenu(),
           ],
@@ -43,9 +49,151 @@ class MyApp extends StatelessWidget {
     );
   }
 
+  Widget TopRated() => Container(
+        child: Column(
+          children: [
+            TitleItem("Top Rated", "View All"),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  LocationItem("assets/images/bogazici.jpg", "Boğaziçi Köprüsü",
+                      "10 km from you", "₺ 16.0"),
+                  LocationItem("assets/images/kızkulesi.jpg", "Kız Kulesi",
+                      "8 km from you", "₺ 100.0"),
+                  LocationItem("assets/images/cıragan.jpg", "Çırağan Sarayı",
+                      "7 km from you", "₺ 50.0"),
+                  LocationItem("assets/images/ortakoy.jpg", "Ortaköy Camii",
+                      "9 km from you", "₺ 0.0"),
+                  LocationItem("assets/images/bogazici.jpg", "Boğaziçi Köprüsü",
+                      "10 km from you", "₺ 16.0"),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+
+  Widget Suggestions() => Container(
+        child: Column(
+          children: [
+            TitleItem("Suggestions", "View All"),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  LocationItem("assets/images/cıragan.jpg", "Çırağan Sarayı",
+                      "7 km from you", "₺ 50.0"),
+                  LocationItem("assets/images/kızkulesi.jpg", "Kız Kulesi",
+                      "8 km from you", "₺ 100.0"),
+                  LocationItem("assets/images/bogazici.jpg", "Boğaziçi Köprüsü",
+                      "10 km from you", "₺ 16.0"),
+                  LocationItem("assets/images/ortakoy.jpg", "Ortaköy Camii",
+                      "9 km from you", "₺ 0.0"),
+                  LocationItem("assets/images/cıragan.jpg", "Çırağan Sarayı",
+                      "7 km from you", "₺ 50.0"),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+
   Widget NearLocation() => Container(
         child: Column(
-          children: [TitleItem("Near You", "View All")],
+          children: [
+            TitleItem("Near You", "View All"),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  LocationItem("assets/images/kızkulesi.jpg", "Kız Kulesi",
+                      "8 km from you", "₺ 100.0"),
+                  LocationItem("assets/images/bogazici.jpg", "Boğaziçi Köprüsü",
+                      "10 km from you", "₺ 16.0"),
+                  LocationItem("assets/images/cıragan.jpg", "Çırağan Sarayı",
+                      "7 km from you", "₺ 50.0"),
+                  LocationItem("assets/images/ortakoy.jpg", "Ortaköy Camii",
+                      "9 km from you", "₺ 0.0"),
+                  LocationItem("assets/images/kızkulesi.jpg", "Kız Kulesi",
+                      "8 km from you", "₺ 100.0"),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+
+  Widget LocationItem(
+          String photo, String title, String description, String price) =>
+      Container(
+        width: 165,
+        padding: EdgeInsets.all(7),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(width: 200, photo)),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 56, 56, 56),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 8,
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          description,
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(236, 125, 87, 1),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Text(
+                    price,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
         ),
       );
 
@@ -59,13 +207,17 @@ class MyApp extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  StoryItem("assets/images/foto.jpg", "Arda A."),
-                  StoryItem("assets/images/man.png", "Ahmet T."),
-                  StoryItem("assets/images/girl.png", "İrem S."),
-                  StoryItem("assets/images/foto.jpg", "Arda A."),
-                  StoryItem("assets/images/man.png", "Ahmet T."),
-                  StoryItem("assets/images/girl.png", "İrem S."),
-                  StoryItem("assets/images/girl.png", "İrem S.")
+                  Row(
+                    children: [
+                      StoryItem("assets/images/foto.jpg", "Arda A."),
+                      StoryItem("assets/images/man.png", "Ahmet T."),
+                      StoryItem("assets/images/girl.png", "İrem S."),
+                      StoryItem("assets/images/foto.jpg", "Arda A."),
+                      StoryItem("assets/images/man.png", "Ahmet T."),
+                      StoryItem("assets/images/girl.png", "İrem S."),
+                      StoryItem("assets/images/girl.png", "İrem S."),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -73,7 +225,44 @@ class MyApp extends StatelessWidget {
         ),
       );
 
-  Widget SearchBox() => Container();
+  Widget SearchBox() => Container(
+        height: 50,
+        margin: EdgeInsets.all(12.0),
+        padding: EdgeInsets.symmetric(horizontal: 14.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: const Color.fromARGB(55, 170, 170, 170)),
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on,
+                  color: Colors.grey,
+                  size: 18,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Kadıköy",
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+            Icon(
+              Icons.tune_outlined,
+              color: Color.fromRGBO(236, 125, 87, 1),
+              size: 18,
+            ),
+          ],
+        ),
+      );
 
   Widget StoryItem(String photo, String name) {
     return Padding(
@@ -81,7 +270,7 @@ class MyApp extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(3),
+            padding: EdgeInsets.all(2.5),
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Color.fromARGB(255, 241, 156, 101),
@@ -146,7 +335,7 @@ class MyApp extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hello Welcome!",
+                    "Hello Arda",
                     style: TextStyle(
                       color: Color.fromARGB(255, 153, 153, 153),
                       fontSize: 15,
